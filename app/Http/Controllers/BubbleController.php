@@ -76,7 +76,8 @@ class BubbleController extends Controller
         foreach ($potentialTopics as $segment => $weight) {
             if ($weight === 1) unset($potentialTopics[$segment]);
         }
-asort($potentialTopics);
+        
+        asort($potentialTopics);
         dd ($potentialTopics);
 
         return $potentialTopics;

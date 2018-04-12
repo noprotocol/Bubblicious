@@ -57,6 +57,13 @@ class Article extends Model
     public function uselessWords()
     {
         $voorzetsels = [
+            'meer',
+            'wil',
+            'wit',
+            'er',
+            'ook',
+            'jr',
+            'anti',
             'en',
             'is',
             'je',
