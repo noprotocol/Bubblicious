@@ -22,6 +22,11 @@ class NewsApi {
         $this->apiKey = config('services.newsapi.key');
     }
 
+    /**
+     * @param string $endpoint
+     * @param string $query
+     * @return string
+     */
     private function get(string $endpoint, string $query): string
     {
         $uri = $this->apiUrl . $endpoint . '?pageSize=100&language=nl&apiKey=' . $this->apiKey . '&' . $query;
