@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Source;
+use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,8 +20,17 @@ Route::get('sources', function () {
     return response()->json(Source::all());
 });
 
-Route::post('sources', function () {
+Route::post('sources', function (Request $request) {
     // [age, ids:[]]
+    $user = User::firstOrNew(['app_id' => 'iets']);
+    $user->age = $request->age;
+    $user->save();
+
+    foreach ($request->ids as $id) {
+        $source = Source::findOrFail($id);
+        // TODO
+    }
+
     return response()->json(['success' => true]);
 });
 

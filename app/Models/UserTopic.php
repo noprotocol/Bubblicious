@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class UserTopic extends Model
 {
@@ -13,6 +14,11 @@ class UserTopic extends Model
 
     public function article()
     {
-        return $this->belongsTo('App\Models\Topic');
+        return $this->belongsTo(Topic::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
