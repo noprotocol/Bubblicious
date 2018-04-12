@@ -14,5 +14,10 @@ use Illuminate\Http\Request;
 */
 
 Route::get('sources', function () {
-    return response()->json(['iets']);
+    return response()->json([
+        [
+            'name' => 'Nu.nl',
+            'image' => 'https://www.nu.nl/static/img/atoms/images/logos/logosprite.svg?v=2'
+        ]
+    ]);
 });
