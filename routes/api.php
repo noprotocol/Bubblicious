@@ -28,6 +28,10 @@ Route::get('sources', function () {
     ]);
 });
 
+Route::post('sources/{age}', function () {
+    return response()->json(['success' => true]);
+});
+
 Route::get('topics', function () {
     return response()->json([
         [
