@@ -11,7 +11,6 @@ class Source extends Model
         'name',
         'image'
     ];
-    }
 
     public function articles()
     {
