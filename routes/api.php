@@ -49,3 +49,8 @@ Route::get('topics', function () {
         ]
     ]);
 });
+
+Route::post('topic', function () {
+    // [age, ids:[]]
+    return response()->json(['success' => true]);
+});
