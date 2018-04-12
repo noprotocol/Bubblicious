@@ -28,7 +28,8 @@ Route::get('sources', function () {
     ]);
 });
 
-Route::post('sources/{age}', function () {
+Route::post('sources', function () {
+    // [age, ids:[]]
     return response()->json(['success' => true]);
 });
 
