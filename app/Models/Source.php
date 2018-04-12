@@ -9,6 +9,7 @@ class Source extends Model
     protected $fillable = [
         'external_id',
         'name',
+        'image'
     ];
 
     public function articles()
