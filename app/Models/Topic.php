@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Topic extends Model
 {
     protected $fillable = [
-        'name',
+        'name', 'weight',
     ];
 
-    public function article()
+    public function articles()
     {
         return $this->hasMany('App\Models\Article');
     }

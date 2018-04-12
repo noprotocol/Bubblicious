@@ -36,7 +36,7 @@ class BubbleController extends Controller
         $defaultImg = 'http://via.placeholder.com/1600x1200';
 
         try {
-            $content = $this->api->query('trump');
+            $content = $this->api->query('energie');
             $data = json_decode($content);
             $articles = $data->articles;
 
@@ -63,24 +63,52 @@ class BubbleController extends Controller
 
     public function normalize()
     {
-        $potentialTopics = [];
+        // $potentialTopics = [];
 
-        $articles = Article::get();
+        $articles = Article::where('topic_id', null)->get();
         foreach ($articles as $article) {
             $normalized = $article->normalize();
-            foreach($normalized as $segment => $weight) {
-                array_key_exists($segment, $potentialTopics) ? $potentialTopics[$segment]++ : $potentialTopics[$segment] = 1;
+            if (!$normalized) continue;
+
+            asort($normalized);
+            $normalized = array_flip($normalized);
+            
+            // Heighest weight, is on bottom for popping.
+            $segment = array_pop($normalized);
+
+            $topic = Topic::where('name', $segment)->first();
+            if (!$topic) {
+                $topic = new Topic;
+                $topic->name = $segment;
+                $topic->weight = 0;
             }
+            $topic->weight++;
+            $topic->save();
+
+            $article->topic_id = $topic->id;
+            $article->save();
+
         }
 
-        foreach ($potentialTopics as $segment => $weight) {
-            if ($weight === 1) unset($potentialTopics[$segment]);
-        }
-        
-        asort($potentialTopics);
-        dd ($potentialTopics);
 
-        return $potentialTopics;
+        // return $potentialTopics;
     }
 
+    public function insertTopics()
+    {
+        $potentialTopics = $this->normalize();
+
+        $articles = Article::where('topic_id', null)->get();
+
+        foreach ($articles as $article) {
+
+        }
+
+    }
+
+    public function getArticles(String $name, Request $request)
+    {
+        $topic = Topic::where('name', $name)->first();
+        dd ($topic->articles()->select('title')->get()->toArray());
+    }
 }

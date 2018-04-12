@@ -14,6 +14,8 @@
 Route::get('test', 'BubbleController@index')->name('index');
 Route::get('import', 'BubbleController@import')->name('import');
 Route::get('normalize', 'BubbleController@normalize')->name('import');
+Route::get('importTopics', 'BubbleController@insertTopics')->name('import');
+Route::get('articles/{name}', 'BubbleController@getArticles')->name('import');
 
 
 Route::get('/', function () {
