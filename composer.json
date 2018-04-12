@@ -50,7 +50,7 @@
         ],
         "post-install-cmd": [
             "php artisan migrate --force"
-        ],
+        ]
     },
     "config": {
         "preferred-install": "dist",
