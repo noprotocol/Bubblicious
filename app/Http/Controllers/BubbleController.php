@@ -12,15 +12,52 @@ use Illuminate\Http\Request;
 
 class BubbleController extends Controller
 {
-	
+    
 
-	public function index()
-	{
-		$source = Source::find(1);
-		$article = $source->articles;
+    public function index()
+    {
+        $source = Source::find(1);
+        $article = $source->articles;
 
-		dd ($article);
-	}    
+        dd ($article);
+    }    
 
+    public function import()
+    {
+        $url = 'http://newsapi.org/v2/everything?pageSize=100&language=nl&q=Bitcoin&from=2017-04-12&sortBy=popularity&apiKey=3f65049dac954588bd4a66fa9be7a83d';
+
+        $defaultImg = 'http://via.placeholder.com/1600x1200';
+
+        try {
+            $content = file_get_contents($url);
+            $data = json_decode($content);
+            $articles = $data->articles;
+
+            foreach ($articles as $article) {
+                $source = Source::where('external_id', $article->source->name)->first();
+
+                if (!$source) {
+                    $source = Source::create([
+                        'external_id'   => $article->source->name,
+                        'name'          => '',
+                    ]);
+                }
+
+                $source->articles()->save(new Article([
+                    'topic_id' => 1,
+                    'title' => $article->title,
+                    'body' => $article->description,
+                    'image' => $article->urlToImage ?: $defaultImg,
+                    'uri' => $article->url, 
+                ]));
+            }
+
+
+
+        } catch (\Exception $e) {
+            throw $e;
+
+        }
+    }
     
 }

@@ -13,7 +13,7 @@ class UserArticle extends Model
 
     public function article()
     {
-    	return $this->belongsTo('App\Models\Article');
+        return $this->belongsTo('App\Models\Article');
     }
 }
 
