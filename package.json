@@ -43,16 +43,24 @@
     "vue-template-compiler": "^2.5.13"
   },
   "babel": {
-    "presets": ["@vue/app"],
+    "presets": [
+      "@vue/app"
+    ],
     "env": {
       "test": {
-        "plugins": ["babel-plugin-transform-es2015-modules-commonjs"]
+        "plugins": [
+          "babel-plugin-transform-es2015-modules-commonjs"
+        ]
       }
     }
   },
   "eslintConfig": {
     "root": true,
-    "extends": ["recommended/esnext", "plugin:vue/essential", "@vue/prettier"],
+    "extends": [
+      "recommended/esnext",
+      "plugin:vue/essential",
+      "@vue/prettier"
+    ],
     "env": {
       "browser": true,
       "jest": true
@@ -60,7 +68,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "plugins": ["vue", "only-warn"],
+    "plugins": [
+      "vue",
+      "only-warn"
+    ],
     "rules": {
       "vue/max-attributes-per-line": 0
     },
@@ -73,9 +84,18 @@
       "autoprefixer": {}
     }
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "jest": {
-    "moduleFileExtensions": ["js", "jsx", "json", "vue"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "vue"
+    ],
     "transform": {
       "^.+\\.vue$": "vue-jest",
       "^.+\\.jsx?$": "babel-jest"
@@ -83,14 +103,24 @@
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },
-    "snapshotSerializers": ["jest-serializer-vue"],
-    "roots": ["src"]
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ],
+    "roots": [
+      "src"
+    ]
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["vue-cli-service lint", "git add"],
-    "*.vue": ["vue-cli-service lint", "git add"]
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }
