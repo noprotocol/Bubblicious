@@ -8,11 +8,20 @@ use App\Models\Topic;
 use App\Models\UserArticle;
 use App\Models\UserTopic;
 
+use App\Services\NewsApi;
 use Illuminate\Http\Request;
 
 class BubbleController extends Controller
 {
-    
+    private $api;
+
+    /**
+     * APIController constructor.
+     */
+    public function __construct()
+    {
+        $this->api = new NewsApi;
+    }
 
     public function index()
     {
@@ -24,25 +33,18 @@ class BubbleController extends Controller
 
     public function import()
     {
-        $url = 'http://newsapi.org/v2/everything?pageSize=100&language=nl&q=Bitcoin&from=2017-04-12&sortBy=popularity&apiKey=3f65049dac954588bd4a66fa9be7a83d';
-
         $defaultImg = 'http://via.placeholder.com/1600x1200';
 
         try {
-            $content = file_get_contents($url);
+            $content = $this->api->query('trump');
             $data = json_decode($content);
             $articles = $data->articles;
 
             foreach ($articles as $article) {
                 $source = Source::where('external_id', $article->source->name)->first();
-
                 if (!$source) {
-                    $source = Source::create([
-                        'external_id'   => $article->source->name,
-                        'name'          => '',
-                    ]);
+                   continue;
                 }
-
                 $source->articles()->save(new Article([
                     'title' => $article->title,
                     'body' => $article->description,
