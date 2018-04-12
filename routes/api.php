@@ -17,7 +17,11 @@ Route::get('sources', function () {
     return response()->json([
         [
             'name' => 'Nu.nl',
-            'image' => 'https://www.nu.nl/static/img/atoms/images/logos/logosprite.svg?v=2'
+            'image' => 'https://bin.snmmd.nl/m/h25ykpju22mc_san_rectangle_xlarge.png/nu-nl-logo.png'
+        ],
+        [
+            'name' => 'AD',
+            'image' => 'https://simwave.nl/wp-content/uploads/2017/11/AD-logo-1.jpg'
         ]
     ]);
 });
