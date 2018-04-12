@@ -44,7 +44,6 @@ class BubbleController extends Controller
                 }
 
                 $source->articles()->save(new Article([
-                    'topic_id' => 1,
                     'title' => $article->title,
                     'body' => $article->description,
                     'image' => $article->urlToImage ?: $defaultImg,
@@ -59,5 +58,26 @@ class BubbleController extends Controller
 
         }
     }
-    
+
+    public function normalize()
+    {
+        $potentialTopics = [];
+
+        $articles = Article::get();
+        foreach ($articles as $article) {
+            $normalized = $article->normalize();
+            foreach($normalized as $segment => $weight) {
+                array_key_exists($segment, $potentialTopics) ? $potentialTopics[$segment]++ : $potentialTopics[$segment] = 1;
+            }
+        }
+
+        foreach ($potentialTopics as $segment => $weight) {
+            if ($weight === 1) unset($potentialTopics[$segment]);
+        }
+asort($potentialTopics);
+        dd ($potentialTopics);
+
+        return $potentialTopics;
+    }
+
 }

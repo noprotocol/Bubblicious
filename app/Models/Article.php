@@ -24,4 +24,156 @@ class Article extends Model
     {
         return $this->belongsTo('App\Models\source');
     }
+
+    public function normalize()
+    {
+
+        $name = $this->title;
+
+        $nameArr = explode('-', str_slug($this->title));
+
+        $normalized = [];
+        foreach ($nameArr as $key => &$segment) {
+            if (!is_numeric($segment) && !in_array($segment, $this->uselessWords())) {
+                $weight = substr_count($this->body , $segment);
+
+                if ($weight === 0) continue;
+                $normalized[$segment] = $weight;
+            }
+        }
+        
+        // foreach ($normalized as $key => $weight) {
+        //     $normalized[$key] = substr_count($article->body , $key );
+        // }
+        return $normalized;
+    }
+
+    
+
+    public function uselessWords()
+    {
+        $voorzetsels = [
+            'en',
+            'is',
+            'je',
+            'ik',
+            'we',
+            'zijn',
+            'maar',
+            'houdt',
+            'twee',
+            'drie',
+            'vier',
+            'vijf',
+            'honderd',
+            'duizend',
+            'de',
+            'het',
+            'een',
+            'aan',
+            'aangaande',
+            'achter',
+            'ad',
+            'af',
+            'bachten',
+            'behalve',
+            'behoudens',
+            'beneden',
+            'benevens',
+            'benoorden',
+            'benoordoosten',
+            'benoordwesten',
+            'beoosten',
+            'betreffende',
+            'bewesten',
+            'bezijden',
+            'bezuiden',
+            'bezuidoosten',
+            'bezuidwesten',
+            'bij',
+            'binnen',
+            'blijkens',
+            'boven',
+            'bovenaan',
+            'buiten',
+            'circa',
+            'conform',
+            'contra',
+            'cum',
+            'dankzij',
+            'door',
+            'doorheen',
+            'gedurende',
+            'gezien',
+            'hangende',
+            'in',
+            'ingevolge',
+            'inzake',
+            'jegens',
+            'krachtens',
+            'langs',
+            'langsheen',
+            'luidens',
+            'met',
+            'middels',
+            'midden',
+            'na',
+            'naar',
+            'naast',
+            'nabij',
+            'namens',
+            'nevens',
+            'niettegenstaande',
+            'nopens',
+            'om',
+            'omstreeks',
+            'omtrent',
+            'ondanks',
+            'onder',
+            'onderaan',
+            'ongeacht',
+            'onverminderd',
+            'op',
+            'over',
+            'overeenkomstig',
+            'per',
+            'plus',
+            'post',
+            'richting',
+            'rond',
+            'rondom',
+            'sedert',
+            'sinds',
+            'spijts',
+            'staande',
+            'te',
+            'tegen',
+            'tegenover',
+            'ten',
+            'ter',
+            'tijdens',
+            'tot',
+            'trots',
+            'tussen',
+            'uit',
+            'uitgezonderd',
+            'van',
+            'vanaf',
+            'vanuit',
+            'vanwege',
+            'versus',
+            'via',
+            'vis-à-vis',
+            'volgens',
+            'voor',
+            'voorbij',
+            'wegens',
+            'zijdens',
+            'zonder',
+        ];
+
+        return $voorzetsels;
+
+    }
+
 }
