@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Source;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,18 +15,7 @@ use App\Models\Article;
 */
 
 Route::get('sources', function () {
-    return response()->json([
-        [
-            'id' => 1,
-            'name' => 'Nu.nl',
-            'image' => 'https://bin.snmmd.nl/m/h25ykpju22mc_san_rectangle_xlarge.png/nu-nl-logo.png'
-        ],
-        [
-            'id' => 2,
-            'name' => 'AD',
-            'image' => 'https://simwave.nl/wp-content/uploads/2017/11/AD-logo-1.jpg'
-        ]
-    ]);
+    return response()->json(Source::all());
 });
 
 Route::post('sources', function () {
@@ -51,6 +41,12 @@ Route::get('topics', function () {
 });
 
 Route::post('topic', function () {
-    // [age, ids:[]]
+    // [id]
+    return response()->json(['success' => true]);
+});
+
+
+Route::post('article', function () {
+    // [id]
     return response()->json(['success' => true]);
 });
