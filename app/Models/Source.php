@@ -10,4 +10,9 @@ class Source extends Model
         'external_id',
         'name',
     ];
+
+    public function articles()
+    {
+        return $this->hasMany('App\Models\Article');
+    }
 }

@@ -14,4 +14,14 @@ class Article extends Model
         'image',
         'uri',
     ];
+
+    public function topic()
+    {
+        return $this->belongsTo('App\Models\Topic');
+    }
+
+    public function source()
+    {
+        return $this->belongsTo('App\Models\source');
+    }
 }

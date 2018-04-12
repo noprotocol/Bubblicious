@@ -11,8 +11,10 @@
 |
 */
 
+	Route::get('test', 'BubbleController@index')->name('index');
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 

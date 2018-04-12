@@ -11,6 +11,9 @@ class UserArticle extends Model
         'article_id',
     ];
 
-    
+    public function article()
+    {
+    	return $this->belongsTo('App\Models\Article');
+    }
 }
 

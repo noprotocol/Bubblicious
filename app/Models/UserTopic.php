@@ -11,5 +11,8 @@ class UserTopic extends Model
         'topic_id',
     ];
 
-    
+    public function article()
+    {
+        return $this->belongsTo('App\Models\Topic');
+    }
 }
