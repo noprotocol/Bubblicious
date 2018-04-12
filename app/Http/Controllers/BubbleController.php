@@ -36,20 +36,15 @@ class BubbleController extends Controller
         $defaultImg = 'http://via.placeholder.com/1600x1200';
 
         try {
-            $content = $this->api->query('bitcoin');
+            $content = $this->api->query('trump');
             $data = json_decode($content);
             $articles = $data->articles;
 
             foreach ($articles as $article) {
                 $source = Source::where('external_id', $article->source->name)->first();
-
                 if (!$source) {
-                    $source = Source::create([
-                        'external_id'   => $article->source->name,
-                        'name'          => '',
-                    ]);
+                   continue;
                 }
-
                 $source->articles()->save(new Article([
                     'title' => $article->title,
                     'body' => $article->description,

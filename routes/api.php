@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Models\Article;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +24,23 @@ Route::get('sources', function () {
             'id' => 2,
             'name' => 'AD',
             'image' => 'https://simwave.nl/wp-content/uploads/2017/11/AD-logo-1.jpg'
+        ]
+    ]);
+});
+
+Route::get('topics', function () {
+    return response()->json([
+        [
+            'id' => 1,
+            'name' => 'trump',
+            'read' => false,
+            'articles' => Article::inRandomOrder()->limit(3)->get()
+        ],
+        [
+            'id' => 2,
+            'name' => 'Meer Trump',
+            'read' => true,
+            'articles' => Article::inRandomOrder()->limit(3)->get()
         ]
     ]);
 });
