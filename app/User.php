@@ -14,6 +14,18 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public $interestSet = [
+        'w_political',
+        'w_progressive',
+        'ws_entertainment',
+        'ws_foreign',
+        'ws_political',
+        'ws_sports',
+        'ws_generic',
+        'ws_culture',
+        'ws_economics',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,28 +47,17 @@ class User extends Authenticatable
     	$userSources = $this->sources;
         if (!$userSources) return [];
 
-        $interestSet = [
-            'w_political',
-            'w_progressive',
-            'w_age',
-            'ws_entertainment',
-            'ws_foreign',
-            'ws_political',
-            'ws_sports',
-            'ws_generic',
-            'ws_culture',
-            'ws_economics',
-        ];
+        
 
         $meansource = [];
         foreach ($userSources as $userSource) {
             $source = $userSource->source;
-            foreach ($interestSet as $interestKey) {
+            foreach ($this->interestSet as $interestKey) {
                 array_key_exists($interestKey, $meansource) ? $meansource[$interestKey] += $source->$interestKey : $meansource[$interestKey] = $source->$interestKey;
             }
 
         }
-        foreach ($interestSet as $interestKey) {
+        foreach ($this->interestSet as $interestKey) {
             $meansource[$interestKey] /= count($userSources);
         }
         asort($meansource);
@@ -65,21 +66,22 @@ class User extends Authenticatable
 
     public function getTopInterests() {
     	$meansource = $this->getInterests();
-        return $meansource ? array_chunk($meansource, 3, true)[0] : [];
+        return $meansource ? array_chunk($meansource, 2, true)[0] : [];
     }
 
     public function getNotYourSource() {
-    	$interests = $ratioInterests = $this->getInterests();
-
     	$sources = Source::get();
     	$userSources = $this->sources;
+
+
     	foreach ($userSources as $userSource) {
 			foreach ($sources as $key => $source) {
 				if ($source->id === $userSource->id) unset($sources[$key]);
 			}
     	}
+
     	foreach ($sources as $key => $source) {
-    		if (!$source->articles->count()) unset($sources[$key]);
+    		if (!$source->articles->where('topic_id', '!=', null)->count()) unset($sources[$key]);
     	}
 
     	return $sources;
@@ -94,42 +96,38 @@ class User extends Authenticatable
     	$sources = $this->getNotYourSource();
 
     	$pickedSources = $sources->random(3);
+
+    	return $pickedSources;
     }
 
     public function getNearestSources() {
     	// Interests needed for calculations later.
-    	$interests = $ratioInterests = $this->getInterests();
+    	$interests = $ratioInterests = $this->getTopInterests();
 
-    	$sources = Source::get();
-    	$userSources = $this->sources;
-    	foreach ($userSources as $userSource) {
-			foreach ($sources as $key => $source) {
-				if ($source->id === $userSource->id) unset($sources[$key]);
-			}    		
-    	}
-
-    	dd($sources);
-    	// Need source set without the current selection
+    	$restSources = $this->getNotYourSource();
     	
-
-
-    	dd ($interests);
-
-    	$sourceCount = Source::count();
-    	foreach ($interests as $key => $value) {
-    		$ratioInterests[$key] = 100 / (Source::sum($key) / Source::count()) * 100;
+    	$interestKeyed = [];
+    	foreach ($interests as $key => $interest) {
+    		$interestKeyed[] = ['value' => $interest, 'key' => $key];
     	}
-    	asort($ratioInterests);
-    	$ratioInterests = array_reverse($ratioInterests);
+    	$distances = [];
+    	foreach ($restSources as $key => $source) {
+    		$distances[$source->id] = (string)sqrt(
+    			pow($source->{ $interestKeyed[0]['key'] } + $interestKeyed[0]['value'], 2) + 
+    			pow($source->{ $interestKeyed[1]['key'] } + $interestKeyed[1]['value'], 2)
+    		);
+    	}
 
+    	asort($distances);
+    	$distances = array_flip($distances);
+    	$nearest = Source::find(end($distances));
+    	$distances = array_reverse($distances);
+    	$furthest = Source::find(end($distances));
 
-
-    	dd($ratioInterests, $interests);
-
-
-
-    	dd ($interests);
+    	return ['nearest' => $nearest, 'furthest' => $furthest];
     }
+
+
 
     /**
      * 

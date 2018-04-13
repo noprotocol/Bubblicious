@@ -153,4 +153,21 @@ class BubbleController extends Controller
 
         return $user->getRandSource();
     }
+
+    public function getRecommendation(User $user) {
+        if (!$user) return [];
+
+
+        $kNN = $user->getNearestSources();
+
+        $articles = [];
+
+        foreach ($kNN['nearest']->articles->take(2) as $article) {
+            $articles[] = $article;
+        }
+
+        $articles[] = $kNN['furthest']->articles->take(1)->first();
+
+        return $articles;
+    }
 }
