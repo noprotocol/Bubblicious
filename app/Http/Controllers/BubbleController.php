@@ -66,7 +66,9 @@ class BubbleController extends Controller
     {
         // $potentialTopics = [];
 
+
         $articles = Article::where('topic_id', null)->get();
+        $i = 0;
         foreach ($articles as $article) {
             $normalized = $article->normalize();
             if (!$normalized) continue;
@@ -88,10 +90,10 @@ class BubbleController extends Controller
 
             $article->topic_id = $topic->id;
             $article->save();
-
+            $i++;
         }
 
-
+        echo "Normalized $i articles, " . Topic::count() . " topics.";
         // return $potentialTopics;
     }
 
