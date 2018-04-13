@@ -65,8 +65,7 @@ class User extends Authenticatable
 
     public function getTopInterests() {
     	$meansource = $this->getInterests();
-        
-        return $meansource ? array_chunk($this->getInterests(), 3, true)[0] : [];
+        return $meansource ? array_chunk($meansource, 3, true)[0] : [];
     }
 
     public function getNearestSources() {
