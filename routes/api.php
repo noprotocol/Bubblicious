@@ -85,7 +85,7 @@ Route::get('bubble', function (Request $request) {
         "ws_entertainment" => 'Entertainment',
         "ws_economics" => 'Economie',
         "ws_sports" => 'Sport',
-        "w_age" => 'Leeftijd',
+//        "w_age" => 'Leeftijd',
         "ws_political" => 'Politiek',
         "ws_foreign" => 'Buitenland',
         "ws_culture" => 'Cultuur',
@@ -97,17 +97,17 @@ Route::get('bubble', function (Request $request) {
         $interests[$name] = $value;
     }
 
+    unset($interests['w_age']); // hack to remove age
+
     asort($interests);
     $interests = array_reverse($interests);
-
     $interests = array_chunk($interests, 3, true)[0];
 
     $bubble = [];
-
     foreach ($interests as $name => $value) {
         $bubble[] = [
             'name' => $name,
-            'value' => $value,
+            'value' => (int)$value,
             'color' => '#24cafe'
         ];
     }
