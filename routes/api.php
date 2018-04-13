@@ -133,12 +133,14 @@ Route::get('bubble', function (Request $request) {
     ];
 
     $bubble = [];
+    $multi = 2;
     foreach ($interests as $name => $value) {
         $bubble[] = [
             'name' => $name,
-            'value' => (int)$value,
+            'value' => (int)($value + 10 * $multi),
             'color' => $colors[$name]
         ];
+        $multi--;
     }
 
     return response()->json($bubble);
