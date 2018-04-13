@@ -205,6 +205,14 @@ class Article extends Model
             'wegens',
             'zijdens',
             'zonder',
+            'al',
+            'u',
+            'wel',
+            'beste',
+            'nog',
+            'ze',
+            'sta',
+
         ];
 
         return $voorzetsels;

@@ -46,6 +46,12 @@ class BubbleController extends Controller
                 if (!$source) {
                    continue;
                 }
+
+                $existing = Article::where('source_id', $source->id)->where('title', $article->title)->get();
+                if (!$existing->isEmpty()) {
+                    continue;
+                }
+
                 $source->articles()->save(new Article([
                     'title' => $article->title,
                     'body' => $article->description,
@@ -67,7 +73,9 @@ class BubbleController extends Controller
     {
         // $potentialTopics = [];
 
+
         $articles = Article::where('topic_id', null)->get();
+        $i = 0;
         foreach ($articles as $article) {
             $normalized = $article->normalize();
             if (!$normalized) continue;
@@ -89,10 +97,10 @@ class BubbleController extends Controller
 
             $article->topic_id = $topic->id;
             $article->save();
-
+            $i++;
         }
 
-
+        echo "Normalized $i articles, " . Topic::count() . " topics.";
         // return $potentialTopics;
     }
 

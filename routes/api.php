@@ -46,7 +46,7 @@ Route::post('sources', function (Request $request) {
  * Show topics (something something personalised)
  */
 Route::get('topics', function () {
-    return response()->json(Topic::orderBy('weight')->limit(5)->get());
+    return response()->json(Topic::where('weight', '>', 3)->orderBy('weight')->limit(5)->get());
 });
 
 /**
@@ -71,9 +71,11 @@ Route::post('article', function (Request $request) {
  * Show top 3 bubbles for user
  */
 Route::get('bubble', function (Request $request) {
+    // ordered
+    // Links / Rechts split op politieke kleur !!
     return response()->json([
-        'political' => ['color' => '#24cafe', 'value' => 68],
-        'sports' => ['color' => '#cafe24', 'value' => 45],
-        'culture' => ['color' => '#ff0000', 'value' => 54],
+        ['name' => 'Politiek', 'color' => '#24cafe', 'value' => 68],
+        ['name' => 'Sport', 'color' => '#cafe24', 'value' => 45],
+        ['name' => 'Cultuur', 'color' => '#ff0000', 'value' => 54],
     ]);
 });

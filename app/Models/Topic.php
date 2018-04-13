@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
@@ -15,7 +16,7 @@ class Topic extends Model
     ];
 
     protected $appends = [
-        'image', 'articles', 'read'
+        'image', 'articles', 'read', 'date'
     ];
 
     /**
@@ -58,5 +59,13 @@ class Topic extends Model
      */
     public function getReadAttribute() {
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateAttribute() {
+        Carbon::setLocale('nl');
+        return $this->articles()->orderBy('created_at', 'desc')->get()->last()->created_at->diffForHumans();
     }
 }
