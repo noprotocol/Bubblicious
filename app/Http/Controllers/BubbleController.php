@@ -7,6 +7,7 @@ use App\Models\Source;
 use App\Models\Topic;
 use App\Models\UserArticle;
 use App\Models\UserTopic;
+use App\User;
 
 use App\Services\NewsApi;
 use Illuminate\Http\Request;
@@ -120,5 +121,22 @@ class BubbleController extends Controller
     }
 
     
+    public function getInterests(User $user) {
+        if (!$user) return [];
 
+        return $user->getInterests();
+        
+    }
+
+    public function getTopInterests(User $user) {
+        if (!$user) return [];
+
+        return $user->getTopInterests();
+    }
+
+    public function getNearestSource(User $user) {
+        if (!$user) return [];
+
+        return $user->getNearestSources();
+    }
 }

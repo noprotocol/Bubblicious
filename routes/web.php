@@ -17,6 +17,10 @@ Route::get('normalize', 'BubbleController@normalize')->name('import');
 Route::get('importTopics', 'BubbleController@insertTopics')->name('import');
 Route::get('articles/{name}', 'BubbleController@getArticles')->name('import');
 
+Route::get('user/{user}/interests', 'BubbleController@getInterests');
+Route::get('user/{user}/interests/top', 'BubbleController@getTopInterests');
+Route::get('user/{user}/interests/source', 'BubbleController@getNearestSource');
+
 
 Route::get('/', function () {
     return view('welcome');
