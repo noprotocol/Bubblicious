@@ -79,3 +79,7 @@ Route::get('bubble', function (Request $request) {
         ['name' => 'Cultuur', 'color' => '#ff0000', 'value' => 54],
     ]);
 });
+
+Route::post('test', function (Request $request) {
+    dd($request->header('X-Bubble'), $request);
+});
