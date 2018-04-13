@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
+use App\User;
 
 class Topic extends Model
 {
@@ -53,12 +55,12 @@ class Topic extends Model
     }
 
     /**
-     * TODO have I read this ??!!
-     *
      * @return bool
      */
     public function getReadAttribute() {
-        return true;
+        $user = User::firstOrCreate(['app_id' => Request::header('X-Bubble')]);
+        $read = $user->topics()->where('topic_id', $this->id)->get();
+        return !$read->isEmpty();
     }
 
     /**
