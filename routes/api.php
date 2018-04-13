@@ -31,6 +31,11 @@ Route::get('sources', function () {
  */
 Route::post('sources', function (Request $request) {
     $user = User::firstOrNew(['app_id' => $request->header('X-Bubble')]);
+
+    foreach($user->sources as $source) {
+        $source->delete();
+    }
+
     $user->age = $request->age;
     $user->save();
 
@@ -46,7 +51,7 @@ Route::post('sources', function (Request $request) {
  * Show topics (something something personalised)
  */
 Route::get('topics', function () {
-    return response()->json(Topic::where('weight', '>', 3)->orderBy('weight')->limit(5)->get());
+    return response()->json(Topic::where('weight', '>', 3)->inRandomOrder()->limit(5)->get());
 });
 
 /**
@@ -80,12 +85,18 @@ Route::get('bubble', function (Request $request) {
 
     $right = $interests['w_political'];
     unset($interests['w_political']);
-    $interests['Right'] = $right;
-    $interests['Left'] = 100-$right;
+    $interests['Rechts'] = $right;
+    $interests['Links'] = 100-$right;
+
+    $right = $interests['w_progressive'];
+    unset($interests['w_progressive']);
+    $interests['Progressief'] = $right;
+    $interests['Conservatief'] = 100-$right;
 
     $names = [
+//        "w_political" => 'Kleur',
         "ws_generic" => 'Algemeen',
-        "w_progressive" => 'Progressief',
+//        "w_progressive" => 'Progressief',
         "ws_entertainment" => 'Entertainment',
         "ws_economics" => 'Economie',
         "ws_sports" => 'Sport',
@@ -107,13 +118,29 @@ Route::get('bubble', function (Request $request) {
     $interests = array_reverse($interests);
     $interests = array_chunk($interests, 3, true)[0];
 
+    $colors = [
+        'Links' => '#ff3300',
+        'Rechts' => '#0033cc',
+        'Progressief' => '#6666ff',
+        'Conservatief' => '#003366',
+        'Algemeen' => '#ff6600',
+        'Entertainment' => '#cc3399',
+        'Economie' => '#6600cc',
+        'Sport' => '#009933',
+        'Politiek' => '#3399ff',
+        'Buitenland' => '#00ccff',
+        'Cultuur' => '#753a10',
+    ];
+
     $bubble = [];
+    $multi = 0;
     foreach ($interests as $name => $value) {
         $bubble[] = [
             'name' => $name,
-            'value' => (int)$value,
-            'color' => '#24cafe'
+            'value' => (int)($value - 10 * $multi),
+            'color' => $colors[$name]
         ];
+        $multi++;
     }
 
     return response()->json($bubble);

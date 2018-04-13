@@ -34,7 +34,7 @@ class BubbleController extends Controller
 
     public function import(string $item)
     {
-        $defaultImg = 'http://via.placeholder.com/1600x1200';
+        $defaultImg = 'https://bubblicious.herokuapp.com/img/bubble.jpg';
         $i = 0;
         try {
             $content = $this->api->query($item);

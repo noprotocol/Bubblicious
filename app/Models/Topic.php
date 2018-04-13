@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
+use App\User;
 
 class Topic extends Model
 {
@@ -36,11 +38,11 @@ class Topic extends Model
      */
     public function getImageAttribute() {
         foreach($this->articles()->inRandomOrder()->get() as $article) {
-            if ($article->image !== 'http://via.placeholder.com/1600x1200') {
+            if ($article->image !== 'https://bubblicious.herokuapp.com/img/bubble.jpg') {
                 return $article->image;
             }
         }
-        return 'http://via.placeholder.com/1600x1200';
+        return 'https://bubblicious.herokuapp.com/img/bubble.jpg';
     }
 
     /**
@@ -49,23 +51,32 @@ class Topic extends Model
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getArticlesAttribute() {
-        return $this->articles()->get();
+        // TODO intelligent
+        return $this->articles()->limit(3)->get();
     }
 
     /**
-     * TODO have I read this ??!!
-     *
      * @return bool
      */
     public function getReadAttribute() {
-        return true;
+        $user = User::firstOrCreate(['app_id' => Request::header('X-Bubble')]);
+        $read = $user->topics()->where('topic_id', $this->id)->get();
+        return !$read->isEmpty();
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDateAttribute() {
         Carbon::setLocale('nl');
         return $this->articles()->orderBy('created_at', 'desc')->get()->last()->created_at->diffForHumans();
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getNameAttribute(string $value) {
+        return ucfirst($value);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\UserTopic;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Topic;
@@ -134,7 +135,7 @@ class User extends Authenticatable
      */
     public function topics() 
     {
-    	return $this->hasMany(Topic::class);
+    	return $this->hasMany(UserTopic::class);
     }
 
     /**
@@ -150,6 +151,6 @@ class User extends Authenticatable
      */
     public function articles()
     {
-    	return $this->hasMany(Article::class);
+    	return $this->hasMany(UserArticle::class);
     }
 }
