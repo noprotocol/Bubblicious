@@ -100,6 +100,13 @@ class BubbleController extends Controller
             $i++;
         }
 
+
+        foreach(Topic::all() as $topic) {
+            $count = $topic->articles()->count();
+            $topic->items = $count;
+            $topic->save();
+        }
+
         echo "Normalized $i articles, " . Topic::count() . " topics.";
         // return $potentialTopics;
     }
