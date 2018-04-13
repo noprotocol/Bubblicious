@@ -147,4 +147,10 @@ class BubbleController extends Controller
 
         return $user->getNearestSources();
     }
+
+    public function getRandSource(User $user) {
+        if (!$user) return [];
+
+        return $user->getRandSource();
+    }
 }

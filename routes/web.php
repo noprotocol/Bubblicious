@@ -20,6 +20,7 @@ Route::get('articles/{name}', 'BubbleController@getArticles')->name('import');
 Route::get('user/{user}/interests', 'BubbleController@getInterests');
 Route::get('user/{user}/interests/top', 'BubbleController@getTopInterests');
 Route::get('user/{user}/interests/source', 'BubbleController@getNearestSource');
+Route::get('user/{user}/interests/source/rand', 'BubbleController@getRandSource');
 
 
 Route::get('/', function () {

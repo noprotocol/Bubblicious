@@ -69,12 +69,67 @@ class User extends Authenticatable
         return $meansource ? array_chunk($this->getInterests(), 3, true)[0] : [];
     }
 
+    public function getNotYourSource() {
+    	$interests = $ratioInterests = $this->getInterests();
+
+    	$sources = Source::get();
+    	$userSources = $this->sources;
+    	foreach ($userSources as $userSource) {
+			foreach ($sources as $key => $source) {
+				if ($source->id === $userSource->id) unset($sources[$key]);
+			}
+    	}
+    	foreach ($sources as $key => $source) {
+    		if (!$source->articles->count()) unset($sources[$key]);
+    	}
+
+    	return $sources;
+    }
+
+   	/**
+   	 * Retrieves sources which are not in its set and random
+   	 * 
+   	 * @return Source
+   	 */
+    public function getRandSource() {
+    	$sources = $this->getNotYourSource();
+
+    	$pickedSources = $sources->random(3);
+    }
+
     public function getNearestSources() {
-    	$interests = $this->getInterests();
+    	// Interests needed for calculations later.
+    	$interests = $ratioInterests = $this->getInterests();
+
+    	$sources = Source::get();
+    	$userSources = $this->sources;
+    	foreach ($userSources as $userSource) {
+			foreach ($sources as $key => $source) {
+				if ($source->id === $userSource->id) unset($sources[$key]);
+			}    		
+    	}
+
+    	dd($sources);
+    	// Need source set without the current selection
+    	
+
 
     	dd ($interests);
 
+    	$sourceCount = Source::count();
+    	foreach ($interests as $key => $value) {
+    		$ratioInterests[$key] = 100 / (Source::sum($key) / Source::count()) * 100;
+    	}
+    	asort($ratioInterests);
+    	$ratioInterests = array_reverse($ratioInterests);
 
+
+
+    	dd($ratioInterests, $interests);
+
+
+
+    	dd ($interests);
     }
 
     /**
