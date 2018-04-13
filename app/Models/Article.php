@@ -212,7 +212,20 @@ class Article extends Model
             'nog',
             'ze',
             'sta',
-
+            's',
+            'f',
+            'me',
+            'haar',
+            'open',
+            'feit',
+            'nieuwe',
+            'der',
+            'hol',
+            'zo',
+            'e',
+            'ver',
+            'zakt',
+            'even'
         ];
 
         return $voorzetsels;
