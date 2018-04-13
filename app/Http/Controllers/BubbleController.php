@@ -45,6 +45,12 @@ class BubbleController extends Controller
                 if (!$source) {
                    continue;
                 }
+
+                $existing = Article::where('source_id', $source->id)->where('title', $article->title)->get();
+                if (!$existing->isEmpty()) {
+                    continue;
+                }
+
                 $source->articles()->save(new Article([
                     'title' => $article->title,
                     'body' => $article->description,
