@@ -53,7 +53,7 @@ Route::get('topics', function () {
  * Topic is read
  */
 Route::post('topic', function (Request $request) {
-    $user = User::firstOrFail(['app_id' => $request->header('X-Bubble')]);
+    $user = User::firstOrCreate(['app_id' => $request->header('X-Bubble')]);
     UserTopic::create(['user_id' => $user->id, 'topic_id' => $request->id]);
     return response()->json(['success' => true]);
 });
@@ -62,7 +62,7 @@ Route::post('topic', function (Request $request) {
  * Article is read
  */
 Route::post('article', function (Request $request) {
-    $user = User::firstOrFail(['app_id' => $request->header('X-Bubble')]);
+    $user = User::firstOrCreate(['app_id' => $request->header('X-Bubble')]);
     UserArticle::create(['user_id' => $user->id, 'article_id' => $request->id]);
     return response()->json(['success' => true]);
 });
