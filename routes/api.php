@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Models\Article;
 use App\Models\Source;
+use App\Models\Topic;
 use App\User;
+use App\Models\UserSource;
+use App\Models\UserTopic;
+use App\Models\UserArticle;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,48 +19,61 @@ use App\User;
 |
 */
 
+/**
+ * Sources all 13 of them
+ */
 Route::get('sources', function () {
     return response()->json(Source::all());
 });
 
+/**
+ * Post sources and age
+ */
 Route::post('sources', function (Request $request) {
-    // [age, ids:[]]
-    $user = User::firstOrNew(['app_id' => 'iets']);
+    $user = User::firstOrNew(['app_id' => $request->header('X-Bubble')]);
     $user->age = $request->age;
     $user->save();
 
     foreach ($request->ids as $id) {
         $source = Source::findOrFail($id);
-        // TODO
+        UserSource::create(['user_id' => $user->id, 'source_id' => $source->id]);
     }
 
     return response()->json(['success' => true]);
 });
 
+/**
+ * Show topics (something something personalised)
+ */
 Route::get('topics', function () {
+    return response()->json(Topic::orderBy('weight')->limit(5)->get());
+});
+
+/**
+ * Topic is read
+ */
+Route::post('topic', function (Request $request) {
+    $user = User::firstOrFail(['app_id' => $request->header('X-Bubble')]);
+    UserTopic::create(['user_id' => $user->id, 'topic_id' => $request->id]);
+    return response()->json(['success' => true]);
+});
+
+/**
+ * Article is read
+ */
+Route::post('article', function (Request $request) {
+    $user = User::firstOrFail(['app_id' => $request->header('X-Bubble')]);
+    UserArticle::create(['user_id' => $user->id, 'article_id' => $request->id]);
+    return response()->json(['success' => true]);
+});
+
+/**
+ * Show top 3 bubbles for user
+ */
+Route::get('bubble', function (Request $request) {
     return response()->json([
-        [
-            'id' => 1,
-            'name' => 'trump',
-            'read' => false,
-            'articles' => Article::inRandomOrder()->limit(3)->get()
-        ],
-        [
-            'id' => 2,
-            'name' => 'Meer Trump',
-            'read' => true,
-            'articles' => Article::inRandomOrder()->limit(3)->get()
-        ]
+        'political' => ['color' => '#24cafe', 'value' => 68],
+        'sports' => ['color' => '#cafe24', 'value' => 45],
+        'culture' => ['color' => '#ff0000', 'value' => 54],
     ]);
-});
-
-Route::post('topic', function () {
-    // [id]
-    return response()->json(['success' => true]);
-});
-
-
-Route::post('article', function () {
-    // [id]
-    return response()->json(['success' => true]);
 });

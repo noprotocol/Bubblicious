@@ -5,16 +5,16 @@ use App\User;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserTopic extends Model
+class UserSource extends Model
 {
     protected $fillable = [
         'user_id',
-        'topic_id',
+        'source_id',
     ];
 
-    public function article()
+    public function source()
     {
-        return $this->belongsTo(Topic::class);
+        return $this->belongsTo(Source::class);
     }
 
     public function user()
