@@ -85,8 +85,8 @@ Route::get('bubble', function (Request $request) {
 
     $right = $interests['w_political'];
     unset($interests['w_political']);
-    $interests['Right'] = $right;
-    $interests['Left'] = 100-$right;
+    $interests['Rechts'] = $right;
+    $interests['Links'] = 100-$right;
 
     $right = $interests['w_progressive'];
     unset($interests['w_progressive']);
@@ -118,12 +118,26 @@ Route::get('bubble', function (Request $request) {
     $interests = array_reverse($interests);
     $interests = array_chunk($interests, 3, true)[0];
 
+    $colors = [
+        'Links' => '#ff3300',
+        'Rechts' => '#0033cc',
+        'Progressief' => '#6666ff',
+        'Conservatief' => '#003366',
+        'Algemeen' => '#ff6600',
+        'Entertainment' => '#cc3399',
+        'Economie' => '#6600cc',
+        'Sport' => '#009933',
+        'Politiek' => '#3399ff',
+        'Buitenland' => '#00ccff',
+        'Cultuur' => '#ffff00',
+    ];
+
     $bubble = [];
     foreach ($interests as $name => $value) {
         $bubble[] = [
             'name' => $name,
             'value' => (int)$value,
-            'color' => '#24cafe'
+            'color' => $colors[$name]
         ];
     }
 
