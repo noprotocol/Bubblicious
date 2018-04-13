@@ -71,6 +71,8 @@ Route::post('article', function (Request $request) {
  * Show top 3 bubbles for user
  */
 Route::get('bubble', function (Request $request) {
+    // ordered
+    // Links / Rechts split op politieke kleur !!
     return response()->json([
         ['name' => 'Politiek', 'color' => '#24cafe', 'value' => 68],
         ['name' => 'Sport', 'color' => '#cafe24', 'value' => 45],
