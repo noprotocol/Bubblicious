@@ -51,7 +51,8 @@ class Topic extends Model
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getArticlesAttribute() {
-        return $this->articles()->get();
+        // TODO intelligent
+        return $this->articles()->limit(3)->get();
     }
 
     /**
