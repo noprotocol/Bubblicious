@@ -72,8 +72,8 @@ Route::post('article', function (Request $request) {
  */
 Route::get('bubble', function (Request $request) {
     return response()->json([
-        'political' => ['color' => '#24cafe', 'value' => 68],
-        'sports' => ['color' => '#cafe24', 'value' => 45],
-        'culture' => ['color' => '#ff0000', 'value' => 54],
+        ['name' => 'Politiek', 'color' => '#24cafe', 'value' => 68],
+        ['name' => 'Sport', 'color' => '#cafe24', 'value' => 45],
+        ['name' => 'Cultuur', 'color' => '#ff0000', 'value' => 54],
     ]);
 });
