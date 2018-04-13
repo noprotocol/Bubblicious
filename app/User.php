@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'app_id', 'age'
     ];
 
     public function orderUserSources()
