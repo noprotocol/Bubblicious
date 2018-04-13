@@ -65,10 +65,18 @@ class Topic extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDateAttribute() {
         Carbon::setLocale('nl');
         return $this->articles()->orderBy('created_at', 'desc')->get()->last()->created_at->diffForHumans();
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getNameAttribute(string $value) {
+        return ucfirst($value);
     }
 }
