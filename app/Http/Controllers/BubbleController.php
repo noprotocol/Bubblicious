@@ -109,6 +109,11 @@ class BubbleController extends Controller
     public function getArticles(String $name, Request $request)
     {
         $topic = Topic::where('name', $name)->first();
-        dd ($topic->articles()->select('title')->get()->toArray());
+        $container = [];
+        $articles = $topic->articles()->get();
+        foreach ($articles as $article) {
+            if ($article->source) $container[$article->source->name][] = $article->title;
+        }
+        dd ($container);
     }
 }
