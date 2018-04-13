@@ -38,11 +38,11 @@ class Topic extends Model
      */
     public function getImageAttribute() {
         foreach($this->articles()->inRandomOrder()->get() as $article) {
-            if ($article->image !== 'http://via.placeholder.com/1600x1200') {
+            if ($article->image !== 'https://bubblicious.herokuapp.com/img/bubble.jpg') {
                 return $article->image;
             }
         }
-        return 'http://via.placeholder.com/1600x1200';
+        return 'https://bubblicious.herokuapp.com/img/bubble.jpg';
     }
 
     /**
