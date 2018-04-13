@@ -227,6 +227,17 @@ class Article extends Model
             'zakt',
             'even',
             'terug',
+            'zich',
+            'komst',
+            'psychische',
+            'komst',
+            'moet',
+            'it',
+            'den',
+            'hoger',
+            'lager',
+            'dag',
+
         ];
 
         return $voorzetsels;
