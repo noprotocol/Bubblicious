@@ -74,6 +74,10 @@ Route::get('bubble', function (Request $request) {
     $user = User::firstOrCreate(['app_id' => $request->header('X-Bubble')]);
     $interests = $user->getInterests();
 
+    if (empty($interests)) {
+        return response()->json([]);
+    }
+
     $right = $interests['w_political'];
     unset($interests['w_political']);
     $interests['Right'] = $right;
