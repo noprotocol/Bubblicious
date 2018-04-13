@@ -31,6 +31,11 @@ Route::get('sources', function () {
  */
 Route::post('sources', function (Request $request) {
     $user = User::firstOrNew(['app_id' => $request->header('X-Bubble')]);
+
+    foreach($user->sources as $source) {
+        $source->delete();
+    }
+
     $user->age = $request->age;
     $user->save();
 
@@ -83,9 +88,15 @@ Route::get('bubble', function (Request $request) {
     $interests['Right'] = $right;
     $interests['Left'] = 100-$right;
 
+    $right = $interests['w_progressive'];
+    unset($interests['w_progressive']);
+    $interests['Progressief'] = $right;
+    $interests['Conservatief'] = 100-$right;
+
     $names = [
+//        "w_political" => 'Kleur',
         "ws_generic" => 'Algemeen',
-        "w_progressive" => 'Progressief',
+//        "w_progressive" => 'Progressief',
         "ws_entertainment" => 'Entertainment',
         "ws_economics" => 'Economie',
         "ws_sports" => 'Sport',
