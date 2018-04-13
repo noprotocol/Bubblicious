@@ -51,7 +51,7 @@ Route::post('sources', function (Request $request) {
  * Show topics (something something personalised)
  */
 Route::get('topics', function () {
-    return response()->json(Topic::where('weight', '>', 3)->orderBy('weight')->limit(5)->get());
+    return response()->json(Topic::where('weight', '>', 3)->inRandomOrder()->limit(5)->get());
 });
 
 /**
@@ -129,7 +129,7 @@ Route::get('bubble', function (Request $request) {
         'Sport' => '#009933',
         'Politiek' => '#3399ff',
         'Buitenland' => '#00ccff',
-        'Cultuur' => '#FFED06',
+        'Cultuur' => '#753a10',
     ];
 
     $bubble = [];

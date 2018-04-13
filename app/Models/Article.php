@@ -225,7 +225,8 @@ class Article extends Model
             'e',
             'ver',
             'zakt',
-            'even'
+            'even',
+            'terug',
         ];
 
         return $voorzetsels;
