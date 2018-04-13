@@ -81,10 +81,10 @@ Route::get('bubble', function (Request $request) {
 });
 
 Route::post('test', function (Request $request) {
-    dd('post', $request->header('X-Bubble'), $request);
+    return response()->json(['post', $request->header('X-Bubble'), $request]);
 });
 
 
 Route::get('test', function (Request $request) {
-    dd('get', $request->header('X-Bubble'), $request);
+    return response()->json(['get', $request->header('X-Bubble'), $request]);
 });
