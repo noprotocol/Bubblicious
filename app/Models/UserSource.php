@@ -12,11 +12,21 @@ class UserSource extends Model
         'source_id',
     ];
 
+    /**
+     * Source user reads
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function source()
     {
         return $this->belongsTo(Source::class);
     }
 
+    /**
+     * User reads source
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -18,11 +18,21 @@ class Topic extends Model
         'image', 'articles'
     ];
 
+    /**
+     * This topics articles
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function articles()
     {
         return $this->hasMany('App\Models\Article');
     }
 
+    /**
+     * A random article image for topic
+     * 
+     * @return string
+     */
     public function getImageAttribute() {
         foreach($this->articles()->inRandomOrder()->get() as $article) {
             if ($article->image !== 'http://via.placeholder.com/1600x1200') {
@@ -32,6 +42,11 @@ class Topic extends Model
         return 'http://via.placeholder.com/1600x1200';
     }
 
+    /**
+     * The articles
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getArticlesAttribute() {
         return $this->articles()->get();
     }

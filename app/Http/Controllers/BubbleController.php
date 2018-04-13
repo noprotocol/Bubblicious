@@ -31,12 +31,12 @@ class BubbleController extends Controller
         dd ($article);
     }    
 
-    public function import()
+    public function import(string $item)
     {
         $defaultImg = 'http://via.placeholder.com/1600x1200';
 
         try {
-            $content = $this->api->query('energie');
+            $content = $this->api->query($item);
             $data = json_decode($content);
             $articles = $data->articles;
 

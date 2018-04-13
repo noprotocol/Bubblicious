@@ -12,7 +12,13 @@ class UserTopic extends Model
         'topic_id',
     ];
 
-    public function article()
+
+    /**
+     * 
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function topic()
     {
         return $this->belongsTo(Topic::class);
     }
