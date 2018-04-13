@@ -101,7 +101,7 @@ class BubbleController extends Controller
         $articles = Article::where('topic_id', null)->get();
 
         foreach ($articles as $article) {
-
+            
         }
 
     }
@@ -114,6 +114,10 @@ class BubbleController extends Controller
         foreach ($articles as $article) {
             if ($article->source) $container[$article->source->name][] = $article->title;
         }
+
         dd ($container);
     }
+
+    
+
 }
