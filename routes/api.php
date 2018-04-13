@@ -129,7 +129,7 @@ Route::get('bubble', function (Request $request) {
         'Sport' => '#009933',
         'Politiek' => '#3399ff',
         'Buitenland' => '#00ccff',
-        'Cultuur' => '#ffff00',
+        'Cultuur' => '#FFED06',
     ];
 
     $bubble = [];
