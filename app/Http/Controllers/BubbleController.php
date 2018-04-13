@@ -34,7 +34,7 @@ class BubbleController extends Controller
     public function import(string $item)
     {
         $defaultImg = 'http://via.placeholder.com/1600x1200';
-
+        $i = 0;
         try {
             $content = $this->api->query($item);
             $data = json_decode($content);
@@ -51,14 +51,15 @@ class BubbleController extends Controller
                     'image' => $article->urlToImage ?: $defaultImg,
                     'uri' => $article->url, 
                 ]));
+                $i++;
             }
-
-
 
         } catch (\Exception $e) {
             throw $e;
 
         }
+
+        echo "Imported $i x '$item'";
     }
 
     public function normalize()

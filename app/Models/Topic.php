@@ -15,7 +15,7 @@ class Topic extends Model
     ];
 
     protected $appends = [
-        'image', 'articles'
+        'image', 'articles', 'read'
     ];
 
     /**
@@ -49,5 +49,14 @@ class Topic extends Model
      */
     public function getArticlesAttribute() {
         return $this->articles()->get();
+    }
+
+    /**
+     * TODO have I read this ??!!
+     *
+     * @return bool
+     */
+    public function getReadAttribute() {
+        return true;
     }
 }
